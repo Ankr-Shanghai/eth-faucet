@@ -1,7 +1,6 @@
 <script>
   import { onMount } from 'svelte';
   import { getAddress } from '@ethersproject/address';
-  import { CloudflareProvider } from '@ethersproject/providers';
   import { setDefaults as setToast, toast } from 'bulma-toast';
 
   let input = null;
@@ -11,7 +10,7 @@
     payout: 1,
   };
 
-  $: document.title = `ETH ${capitalize(faucetInfo.network)} Faucet`;
+  $: document.title = `COQ ${capitalize(faucetInfo.network)} Faucet`;
 
   onMount(async () => {
     const res = await fetch('/api/info');
@@ -28,19 +27,6 @@
 
   async function handleRequest() {
     let address = input;
-    if (address.endsWith('.eth')) {
-      try {
-        const provider = new CloudflareProvider();
-        address = await provider.resolveName(address);
-        if (!address) {
-          toast({ message: 'invalid ENS name', type: 'is-warning' });
-          return;
-        }
-      } catch (error) {
-        toast({ message: error.reason, type: 'is-warning' });
-        return;
-      }
-    }
 
     try {
       address = getAddress(address);
@@ -80,7 +66,7 @@
               <span class="icon">
                 <i class="fa fa-bath" />
               </span>
-              <span><b>ETH Faucet</b></span>
+              <span><b>COQ Faucet</b></span>
             </a>
           </div>
           <div id="navbarMenu" class="navbar-menu">
@@ -106,7 +92,7 @@
       <div class="container has-text-centered">
         <div class="column is-6 is-offset-3">
           <h1 class="title">
-            Receive {faucetInfo.payout} ETH per request
+            Receive {faucetInfo.payout} COQ per request
           </h1>
           <h2 class="subtitle">
             Serving from {faucetInfo.account}
@@ -118,7 +104,7 @@
                   bind:value={input}
                   class="input is-rounded"
                   type="text"
-                  placeholder="Enter your address or ENS name"
+                  placeholder="Enter your address"
                 />
               </p>
               <p class="control">
@@ -139,12 +125,7 @@
 
 <style>
   .hero.is-info {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-      url('/background.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    background-image: linear-gradient(to top, #a7a6cb 0%, #8989ba 52%, #8989ba 100%);
   }
   .hero .subtitle {
     padding: 3rem 0;
